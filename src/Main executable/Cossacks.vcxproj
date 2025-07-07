@@ -82,8 +82,8 @@
     <IntDir>../Temp/dmcr/</IntDir>
     <TargetName>dmcr</TargetName>
     <LinkIncremental />
-    <IncludePath>C:\Users\Тест\Desktop\cossacks-revamp-2025-1.52\src\Main executable\SDL2_mixer\include\;C:\Users\Тест\Desktop\cossacks-revamp-2025-1.52\src\Main executable\sdl\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Тест\Desktop\cossacks-revamp-2025-1.52\src\Main executable\SDL2_mixer\lib\x86\;C:\Users\Тест\Desktop\cossacks-revamp-2025-1.52\src\Main executable\sdl\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)SDL2_mixer\include\;$(ProjectDir)sdl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)SDL2_mixer\lib\x86\;$(ProjectDir)sdl\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>dmcr</TargetName>
