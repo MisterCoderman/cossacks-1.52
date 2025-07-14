@@ -405,6 +405,14 @@ bool CreateDDObjects(HWND hwnd_param) {
         style |= WS_SYSMENU;
         SetWindowLong(hwnd_param, GWL_STYLE, style);
         SetWindowPos(hwnd_param, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+        // Clean and update the render
+        if (bActive && gRenderer) {
+            SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+            SDL_RenderClear(gRenderer);
+            SDL_RenderPresent(gRenderer);
+            printf("Menu: Render updated with RealLx=%d, RealLy=%d\n", RealLx, RealLy);
+        }
     }
     if ((InGame || InEditor) && window_mode) {
         if (isWine) {

@@ -155,36 +155,10 @@ UINT CDirSound::DuplicateSoundBuffer(UINT bufferNum) {
     if (!srcChunk)
         return 0;
 
-    char* waveData = (char*)srcChunk->abuf;
-    DWORD waveSize = srcChunk->alen;
-    LPWAVEFORMATEX waveFormat = ((CWave*)srcChunk->allocated)->GetWaveFormatPtr();
-    if (!waveFormat) {
-        return 0;
-    }
-
-    char headerBuf[44];
-    DWORD headerSize;
-    CreateWAVHeader(waveFormat, waveSize, headerBuf, &headerSize);
-    char* wavData = new char[headerSize + waveSize];
-    memcpy(wavData, headerBuf, headerSize);
-    memcpy(wavData + headerSize, waveData, waveSize);
-
-    SDL_RWops* rw = SDL_RWFromMem(wavData, headerSize + waveSize);
-    if (!rw) {
-        delete[] wavData;
-        return 0;
-    }
-
-    Mix_Chunk* chunk = Mix_LoadWAV_RW(rw, 0);
-    SDL_RWclose(rw);
-    delete[] wavData;
-    if (!chunk) {
-        return 0;
-    }
-
-    m_bufferPointers[m_currentBufferNum] = chunk;
-    m_bufferSizes[m_currentBufferNum] = waveSize;
+    m_bufferPointers[m_currentBufferNum] = srcChunk;
+    m_bufferSizes[m_currentBufferNum] = srcChunk->alen;
     Volume[m_currentBufferNum] = Volume[bufferNum];
+
     return m_currentBufferNum;
 }
 
