@@ -12,10 +12,10 @@
 #include <SDL_mixer.h>
 #include <string>
 
-#define MAXSND 600
-#define MAXSND1 601
+#define MAXSND 1024
+#define MAXSND1 2048
 #define MaxSlider 1000
-#define SDL_MAX 128
+#define SDL_MAX 1024
 
 class CDirSound {
 protected:

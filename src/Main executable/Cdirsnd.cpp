@@ -212,7 +212,7 @@ BOOL CDirSound::PlaySound(UINT bufferNum) {
     if (!chunk)
         return FALSE;
 
-    int channel = Mix_PlayChannel(-1, chunk, 0);
+    int channel = Mix_PlayChannel(bufferNum, chunk, 0);
     if (channel < 0) {
         return FALSE;
     }
@@ -233,7 +233,7 @@ BOOL CDirSound::PlayCoorSound(UINT bufferNum, int x, int vx) {
     if (!chunk)
         return FALSE;
 
-    int channel = Mix_PlayChannel(-1, chunk, 0);
+    int channel = Mix_PlayChannel(bufferNum, chunk, 0);
     if (channel < 0) {
         return FALSE;
     }
