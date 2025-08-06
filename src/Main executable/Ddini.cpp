@@ -200,10 +200,10 @@ __declspec(dllexport) void FlipPages(void) {
         memset(rgbBuffer, 0, RealLx * RealLy * sizeof(Uint32));
     }
 
-    // Многопоточная обработка пикселей (используем все ядра)
+    // Многопоточная обработка пикселей (используем до 18 ядер)
     byte* src = (byte*)offScreenPtr + MaxSizeX * 32;
     Uint32* dst = rgbBuffer;
-    unsigned int threadCount = std::max<unsigned int>(1u, std::thread::hardware_concurrency());
+    unsigned int threadCount = std::min<unsigned int>(18u, std::thread::hardware_concurrency());
 
     std::vector<std::thread> threads;
     threads.reserve(threadCount);
