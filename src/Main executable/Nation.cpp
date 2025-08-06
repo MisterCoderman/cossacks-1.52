@@ -1049,7 +1049,7 @@ void HealWalls() {
 		return;
 
 	int activeObjects = MAXOBJECT;
-	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? std::thread::hardware_concurrency() : 1;
+	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? (std::thread::hardware_concurrency() < 16u ? static_cast<int>(std::thread::hardware_concurrency()) : 16) : 1;
 	std::vector<std::thread> threads;
 
 	// Разделяем массив Group на поддиапазоны
@@ -1296,7 +1296,7 @@ void OneObject::MakeDamage( int Fundam, int Persist, OneObject* Sender, byte Att
 void WinnerControl(bool Anyway) {
 	// Проверяем количество активных объектов
 	int activeObjects = MAXOBJECT; // Предполагаем, что MAXOBJECT отражает общее количество объектов
-	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? std::thread::hardware_concurrency() : 1;
+	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? (std::thread::hardware_concurrency() < 16u ? static_cast<int>(std::thread::hardware_concurrency()) : 16) : 1;
 	std::vector<std::thread> threads;
 	std::vector<WinnerControlResult> results(numThreads);
 
@@ -1799,7 +1799,7 @@ void Nation::AddUpgrade( word ID, int time )
 //Calculate population values for all players
 void EnumPopulation() {
 	int activeObjects = MAXOBJECT;
-	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? std::thread::hardware_concurrency() : 1;
+	int numThreads = (activeObjects >= MULTITHREAD_THRESHOLD) ? (std::thread::hardware_concurrency() < 16u ? static_cast<int>(std::thread::hardware_concurrency()) : 16) : 1;
 	std::vector<std::thread> threads;
 	std::vector<EnumPopulationResult> results(numThreads);
 

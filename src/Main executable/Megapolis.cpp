@@ -2918,7 +2918,7 @@ void City::ExecuteBrigades()
 
 		rando();
 		// ---- Параллельный AI-цикл по армиям ----
-		unsigned numThreads = std::thread::hardware_concurrency();
+		unsigned numThreads = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (numThreads == 0) numThreads = 4;
 		int chunk = (MaxArm + numThreads - 1) / numThreads;
 		std::vector<std::thread> threads;
@@ -5399,7 +5399,7 @@ void ArmyMakeDiversiaLink(AI_Army* ARM)
 			std::atomic<int> foundIdx(-1);
 			std::atomic<AI_Army*> foundAIAR(nullptr);
 			std::mutex mtx;
-			unsigned numThreads = std::thread::hardware_concurrency();
+			unsigned numThreads = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 			if (numThreads == 0) numThreads = 4;
 			int chunk = (Na + numThreads - 1) / numThreads;
 			std::vector<std::thread> threads;
@@ -7481,7 +7481,7 @@ int GetBestVictimForArchers(byte NI, int x, int y, int R, int MyTop)
 	int y0 = (y - 1024) << 4;
 	byte Mask = 1 << NI;
 
-	unsigned numThreads = std::thread::hardware_concurrency();
+	unsigned numThreads = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 	if (!numThreads) numThreads = 4;
 	int chunk = (totalObjs + numThreads - 1) / numThreads;
 

@@ -164,7 +164,7 @@ void Brigade::CheckMembers(City* pCT)
 	// Параллельная фильтрация участников, если их больше threshold
 	if (oldNMemb > threshold)
 	{
-		unsigned tcount = std::thread::hardware_concurrency() ? std::thread::hardware_concurrency() : 2;
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		int chunk = (oldNMemb + tcount - 1) / tcount;
 
 		// Локальные контейнеры для потоков
@@ -532,7 +532,7 @@ int Brigade::SelectPeasants(byte NI)
 
 	// 1) Параллельный подсчёт количества крестьян
 	if (oldNMemb > threshold) {
-		unsigned tcount = std::thread::hardware_concurrency();
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (!tcount) tcount = 2;
 		int chunk = (oldNMemb + tcount - 1) / tcount;
 		std::vector<std::thread> threads;
@@ -585,7 +585,7 @@ int Brigade::SelectPeasants(byte NI)
 
 	// 3) Параллельная сборка новых списков
 	if (oldNMemb > threshold) {
-		unsigned tcount = std::thread::hardware_concurrency();
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (!tcount) tcount = 2;
 		int chunk = (oldNMemb + tcount - 1) / tcount;
 		std::vector<std::thread> threads;
@@ -727,7 +727,7 @@ void B_LocalSendToLink(Brigade* BR)
 	// 1) подсчёт S (сумма RealX+RealY)
 	if (N > threshold)
 	{
-		unsigned tcount = std::thread::hardware_concurrency();
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (!tcount) tcount = 2;
 		std::vector<std::thread> threads;
 		std::vector<long long> partial(tcount, 0);
@@ -784,7 +784,7 @@ void B_LocalSendToLink(Brigade* BR)
 	// 3) основная работа (команды NewMonsterSendTo)
 	if (N > threshold)
 	{
-		unsigned tcount = std::thread::hardware_concurrency();
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (!tcount) tcount = 2;
 		std::vector<std::thread> threads;
 		int chunk = (N + tcount - 1) / tcount;
@@ -1086,7 +1086,7 @@ void B_WideLocalSendToLink(Brigade* BR)
 
 	if (N > threshold)
 	{
-		unsigned tcount = std::thread::hardware_concurrency();
+		unsigned tcount = std::thread::hardware_concurrency() ? (std::thread::hardware_concurrency() < 16u ? std::thread::hardware_concurrency() : 16u) : 2;
 		if (!tcount) tcount = 2;
 		int chunk = (N + tcount - 1) / tcount;
 		std::vector<std::thread> threads;
