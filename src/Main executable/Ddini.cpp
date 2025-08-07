@@ -54,10 +54,9 @@ SDL_Renderer* gRenderer = nullptr;
 SDL_Texture* gPrimaryTexture = nullptr;
 SDL_Texture* gBackTexture = nullptr;
 SDL_Palette* gPalette = nullptr;
+SDL_Palette* sdlPal = nullptr; // Глобальная палитра SDL
 SDL_Color GPal[256];
 void* offScreenPtr = nullptr;
-Uint32* rgbBuffer = nullptr;
-Uint32 lutPalette[256];
 std::mutex renderMutex;
 extern bool PalDone;
 extern word PlayerMenuMode;
@@ -135,13 +134,6 @@ void ClearRGB() {
 extern bool InGame;
 extern bool InEditor;
 
-static void UpdatePaletteLUT() {
-    for (int i = 0; i < 256; i++) {
-        lutPalette[i] = (GPal[i].a << 24) | (GPal[i].r << 16) | (GPal[i].g << 8) | GPal[i].b;
-    }
-}
-
-
 __declspec(dllexport) void FlipPages(void) {
     std::lock_guard<std::mutex> lock(renderMutex);
     static bool currentVSync = false;
@@ -157,9 +149,6 @@ __declspec(dllexport) void FlipPages(void) {
 
     if (!bActive || DDError) return;
     if (!gRenderer) return;
-    if (!gPrimaryTexture || !gBackTexture) {
-        return;
-    }
     if (!gPrimaryTexture || !gBackTexture) {
         gPrimaryTexture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_ARGB8888,
             SDL_TEXTUREACCESS_STREAMING, RealLx, RealLy);
@@ -189,70 +178,32 @@ __declspec(dllexport) void FlipPages(void) {
         }
     }
 
-    // Выделение буфера при необходимости
-    if (!rgbBuffer) {
-        rgbBuffer = (Uint32*)malloc(RealLx * RealLy * sizeof(Uint32));
-        if (!rgbBuffer) {
-            char err[256], msg[256];
-            sprintf(err, "Failed to allocate rgbBuffer");
-            ConvertUTF8ToWindows1251(err, msg, 256);
-            MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
-            return;
-        }
+    // Создаем SDL_Surface из ScreenPtr с использованием Pitch
+    SDL_Surface* srcSurface = SDL_CreateRGBSurfaceWithFormatFrom(
+        ScreenPtr, RealLx, RealLy, 8, Pitch, SDL_PIXELFORMAT_INDEX8);
+    if (!srcSurface) {
+        char err[256], msg[256];
+        sprintf(err, "SDL_CreateRGBSurfaceWithFormatFrom failed: %s", SDL_GetError());
+        ConvertUTF8ToWindows1251(err, msg, 256);
+        MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
+        return;
     }
+    SDL_SetSurfacePalette(srcSurface, sdlPal);
 
-    // Очистка буфера в режиме меню
-    if (!InGame && !InEditor) {
-        memset(rgbBuffer, 0, RealLx * RealLy * sizeof(Uint32));
-    }
-
-    // Многопоточная обработка пикселей (используем до 18 ядер)
-    byte* src = (byte*)offScreenPtr + MaxSizeX * 32;
-    Uint32* dst = rgbBuffer;
-    unsigned int threadCount = std::min<unsigned int>(18u, std::thread::hardware_concurrency());
-
-    std::vector<std::thread> threads;
-    threads.reserve(threadCount);
-    int linesPerThread = RealLy / threadCount;
-
-    for (unsigned int i = 0; i < threadCount; ++i) {
-        int startY = i * linesPerThread;
-        int endY = (i == threadCount - 1) ? RealLy : startY + linesPerThread;
-        threads.emplace_back([=, &src, &dst]() {
-            for (int y = startY; y < endY; ++y) {
-                for (int x = 0; x < RealLx; ++x) {
-                    int p = y * RealLx + x;
-                    int idx = y * MaxSizeX + x;
-                    dst[p] = lutPalette[src[idx]];
-                }
-            }
-            });
-    }
-    for (auto& t : threads) t.join();
-
-    // Обновление текстуры и рендеринг
+    // Обновление текстуры через SDL_Surface
     SDL_Texture* target = window_mode ? gBackTexture : gPrimaryTexture;
-    if (SDL_UpdateTexture(target, NULL, rgbBuffer, RealLx * sizeof(Uint32)) != 0) {
-        // Для NVIDIA: игнорируем ошибку и пробуем восстановить текстуру в следующем кадре
-        static int errorCount = 0;
-        if (errorCount++ > 5) {
-            char err[256], msg[256];
-            sprintf(err, "SDL_UpdateTexture failed: %s", SDL_GetError());
-            ConvertUTF8ToWindows1251(err, msg, 256);
-            MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
-            errorCount = 0;
-        }
-
-        // Попытка мягкого восстановления без пересоздания всего
-        SDL_DestroyTexture(target);
-        target = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_ARGB8888,
-            SDL_TEXTUREACCESS_STREAMING, RealLx, RealLy);
-
-        if (window_mode) gBackTexture = target;
-        else gPrimaryTexture = target;
-
-        return; // Пропускаем кадр при ошибке
+    SDL_Surface* targetSurface;
+    if (SDL_LockTextureToSurface(target, nullptr, &targetSurface) != 0) {
+        char err[256], msg[256];
+        sprintf(err, "SDL_LockTextureToSurface failed: %s", SDL_GetError());
+        ConvertUTF8ToWindows1251(err, msg, 256);
+        MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
+        SDL_FreeSurface(srcSurface);
+        return;
     }
+    SDL_BlitSurface(srcSurface, nullptr, targetSurface, nullptr);
+    SDL_UnlockTexture(target);
+    SDL_FreeSurface(srcSurface);
 
     if (SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255) != 0 || SDL_RenderClear(gRenderer) != 0) {
         char err[256], msg[256];
@@ -273,7 +224,6 @@ __declspec(dllexport) void FlipPages(void) {
 
     SDL_RenderPresent(gRenderer);
 }
-
 
 void LockSurface(void) {
     std::lock_guard<std::mutex> lock(renderMutex);
@@ -376,9 +326,7 @@ bool CreateDDObjects(HWND hwnd_param) {
 
     // Освобождение существующих ресурсов
     free(offScreenPtr);
-    free(rgbBuffer);
     offScreenPtr = nullptr;
-    rgbBuffer = nullptr;
     if (gPrimaryTexture) SDL_DestroyTexture(gPrimaryTexture);
     if (gBackTexture) SDL_DestroyTexture(gBackTexture);
     gPrimaryTexture = nullptr;
@@ -391,6 +339,8 @@ bool CreateDDObjects(HWND hwnd_param) {
     }
     if (gPalette) SDL_FreePalette(gPalette);
     gPalette = nullptr;
+    if (sdlPal) SDL_FreePalette(sdlPal);
+    sdlPal = nullptr;
 
     if (!hwnd_param) {
         char errorMsg[256], convertedMsg[256];
@@ -616,8 +566,8 @@ bool CreateDDObjects(HWND hwnd_param) {
         SDL_SetRenderTarget(gRenderer, nullptr);
     }
 
-    gPalette = SDL_AllocPalette(256);
-    if (!gPalette) {
+    sdlPal = SDL_AllocPalette(256);
+    if (!sdlPal) {
         char errorMsg[256], convertedMsg[256];
         sprintf(errorMsg, "SDL_AllocPalette failed: %s", SDL_GetError());
         ConvertUTF8ToWindows1251(errorMsg, convertedMsg, 256);
@@ -628,6 +578,12 @@ bool CreateDDObjects(HWND hwnd_param) {
         SDL_DestroyWindow(gWindow);
         SDL_Quit();
         return false;
+    }
+
+    // Инициализация палитры sdlPal
+    for (int i = 0; i < 256; ++i) {
+        SDL_Color color = { GPal[i].r, GPal[i].g, GPal[i].b, GPal[i].a };
+        SDL_SetPaletteColors(sdlPal, &color, i, 1);
     }
 
     SCRSizeX = MaxSizeX;
@@ -658,13 +614,12 @@ bool CreateDDObjects(HWND hwnd_param) {
         SDL_DestroyTexture(gPrimaryTexture);
         SDL_DestroyRenderer(gRenderer);
         SDL_DestroyWindow(gWindow);
-        SDL_FreePalette(gPalette);
+        SDL_FreePalette(sdlPal);
         SDL_Quit();
         return false;
     }
 
     InitRLCWindows();
-    UpdatePaletteLUT();
     return true;
 }
 
@@ -698,10 +653,6 @@ void FreeDDObjects(void) {
         free(offScreenPtr);
         offScreenPtr = nullptr;
     }
-    if (rgbBuffer) {
-        free(rgbBuffer);
-        rgbBuffer = nullptr;
-    }
     if (gPrimaryTexture) {
         SDL_DestroyTexture(gPrimaryTexture);
         gPrimaryTexture = nullptr;
@@ -722,6 +673,10 @@ void FreeDDObjects(void) {
         SDL_FreePalette(gPalette);
         gPalette = nullptr;
     }
+    if (sdlPal) {
+        SDL_FreePalette(sdlPal);
+        sdlPal = nullptr;
+    }
     SDL_Quit();
 }
 
@@ -736,6 +691,18 @@ void LoadPalette(LPCSTR lpFileName) {
             GPal[i].a = 255;
         }
         RClose(pf);
+        sdlPal = SDL_AllocPalette(256);
+        if (!sdlPal) {
+            char errorMsg[256], convertedMsg[256];
+            sprintf(errorMsg, "SDL_AllocPalette failed: %s", SDL_GetError());
+            ConvertUTF8ToWindows1251(errorMsg, convertedMsg, 256);
+            MessageBoxA(NULL, convertedMsg, "SDL Error", MB_OK | MB_ICONERROR);
+            return;
+        }
+        for (int i = 0; i < 256; ++i) {
+            SDL_Color color = { GPal[i].r, GPal[i].g, GPal[i].b, GPal[i].a };
+            SDL_SetPaletteColors(sdlPal, &color, i, 1);
+        }
         if (!strcmp(lpFileName, "agew_1.pal")) {
             int C0 = 65;
             for (int i = 0; i < 12; i++) {
@@ -769,6 +736,8 @@ void LoadPalette(LPCSTR lpFileName) {
                 GPal[0xB0 + i].r = rr;
                 GPal[0xB0 + i].g = gg;
                 GPal[0xB0 + i].b = bb;
+                SDL_Color color = { (Uint8)rr, (Uint8)gg, (Uint8)bb, 255 };
+                SDL_SetPaletteColors(sdlPal, &color, 0xB0 + i, 1);
                 C0 += 5;
             }
             ResFile pf = RRewrite(lpFileName);
@@ -779,7 +748,6 @@ void LoadPalette(LPCSTR lpFileName) {
             }
             RClose(pf);
         }
-        UpdatePaletteLUT();
     }
 }
 
@@ -805,8 +773,9 @@ __declspec(dllexport) void SlowLoadPalette(LPCSTR lpFileName) {
                 GPal[i].r = GPal[i].r + (tempPal[i].r - GPal[i].r) * t;
                 GPal[i].g = GPal[i].g + (tempPal[i].g - GPal[i].g) * t;
                 GPal[i].b = GPal[i].b + (tempPal[i].b - GPal[i].b) * t;
+                SDL_Color color = { GPal[i].r, GPal[i].g, GPal[i].b, GPal[i].a };
+                SDL_SetPaletteColors(sdlPal, &color, i, 1);
             }
-            UpdatePaletteLUT();
             FlipPages();
             if (t >= 1.0f) break;
             SDL_Delay(10);
@@ -833,8 +802,9 @@ __declspec(dllexport) void SlowUnLoadPalette(LPCSTR lpFileName) {
             GPal[i].r = GPal[i].r + (tempPal[i].r - GPal[i].r) * t;
             GPal[i].g = GPal[i].g + (tempPal[i].g - GPal[i].g) * t;
             GPal[i].b = GPal[i].b + (tempPal[i].b - GPal[i].b) * t;
+            SDL_Color color = { GPal[i].r, GPal[i].g, GPal[i].b, GPal[i].a };
+            SDL_SetPaletteColors(sdlPal, &color, i, 1);
         }
-        UpdatePaletteLUT();
         FlipPages();
         if (t >= 1.0f) break;
         SDL_Delay(10);
@@ -848,8 +818,9 @@ void SetDarkPalette(void) {
         GPal[i].r = GPal[i].r * 2 / 3;
         GPal[i].g = GPal[i].g * 2 / 3;
         GPal[i].b = GPal[i].b * 2 / 3;
+        SDL_Color color = { GPal[i].r, GPal[i].g, GPal[i].b, GPal[i].a };
+        SDL_SetPaletteColors(sdlPal, &color, i, 1);
     }
-    UpdatePaletteLUT();
 }
 
 void SetDebugMode() {}
