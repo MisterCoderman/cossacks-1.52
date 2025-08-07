@@ -155,14 +155,20 @@ __declspec(dllexport) void FlipPages(void) {
         currentVSync = (InGame || InEditor);
     }
 
-    // Проверка на ошибки рендерера
     if (!bActive || DDError) return;
-    if (!gRenderer || !gPrimaryTexture || !gBackTexture) {
-        char err[256], msg[256];
-        sprintf(err, "FlipPages: Invalid renderer or textures");
-        ConvertUTF8ToWindows1251(err, msg, 256);
-        MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
+    if (!gRenderer) return;
+    if (!gPrimaryTexture || !gBackTexture) {
         return;
+    }
+    if (!gPrimaryTexture || !gBackTexture) {
+        gPrimaryTexture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_STREAMING, RealLx, RealLy);
+        gBackTexture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_STREAMING, RealLx, RealLy);
+
+        if (!gPrimaryTexture || !gBackTexture) {
+            return;
+        }
     }
 
     // Логика центрирования окна
@@ -227,11 +233,25 @@ __declspec(dllexport) void FlipPages(void) {
     // Обновление текстуры и рендеринг
     SDL_Texture* target = window_mode ? gBackTexture : gPrimaryTexture;
     if (SDL_UpdateTexture(target, NULL, rgbBuffer, RealLx * sizeof(Uint32)) != 0) {
-        char err[256], msg[256];
-        sprintf(err, "SDL_UpdateTexture failed: %s", SDL_GetError());
-        ConvertUTF8ToWindows1251(err, msg, 256);
-        MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
-        return;
+        // Для NVIDIA: игнорируем ошибку и пробуем восстановить текстуру в следующем кадре
+        static int errorCount = 0;
+        if (errorCount++ > 5) {
+            char err[256], msg[256];
+            sprintf(err, "SDL_UpdateTexture failed: %s", SDL_GetError());
+            ConvertUTF8ToWindows1251(err, msg, 256);
+            MessageBoxA(NULL, msg, "SDL Error", MB_OK | MB_ICONERROR);
+            errorCount = 0;
+        }
+
+        // Попытка мягкого восстановления без пересоздания всего
+        SDL_DestroyTexture(target);
+        target = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_ARGB8888,
+            SDL_TEXTUREACCESS_STREAMING, RealLx, RealLy);
+
+        if (window_mode) gBackTexture = target;
+        else gPrimaryTexture = target;
+
+        return; // Пропускаем кадр при ошибке
     }
 
     if (SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255) != 0 || SDL_RenderClear(gRenderer) != 0) {
@@ -438,10 +458,11 @@ bool CreateDDObjects(HWND hwnd_param) {
     if ((InGame || InEditor) && window_mode) {
         if (isWine) {
             SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
-            SDL_Delay(50);
+            SDL_Delay(100);
         }
         else {
             SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN);
+            SDL_Delay(100);
         }
         SDL_SetWindowSize(gWindow, RealLx, RealLy);
         SDL_SetWindowPosition(gWindow, 0, 0);
