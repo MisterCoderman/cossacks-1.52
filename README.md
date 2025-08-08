@@ -105,6 +105,18 @@ You can download the updated version of the game [here](https://archive.org/down
 # 🗂️ What about the classic version without mods, but with the bug fixes from version 1.42?
 This is Cossacks: Back to War 1.52 Classic Edition. It’s available as a separate archive, which you can download [here](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) . This version doesn’t include any built-in mods, but all new cheat codes still work, as they are written into the game engine rather than the game resources.
 
+# 🖥️ Windows XP Support — For True Retro Enthusiasts
+
+While our main focus is on modern operating systems, we haven’t forgotten the users of Windows XP — the legendary OS that became a symbol of its era. Version 1.52 already runs successfully on Windows XP SP3, and we’re actively developing a special edition — Cossacks: Back to War 1.52 Legacy Edition — tailored specifically for this system.
+
+This version will include all the features and improvements of 1.52, including full multiplayer support compatible with players on Windows 11, Linux, and macOS.
+
+# ⚠️ Important: Support for Windows 9x (95/98/ME) and Windows 2000 will not be implemented for the following reasons:
+
+These systems lack support for multi-core processors;
+Version 1.52 requires at least 256 MB of RAM and a dual-core CPU (quad-core or higher recommended);
+Even with deep optimization, the game remains too resource-intensive for platforms without SMP (Symmetric Multiprocessing) — multithreading is a core part of the new engine version.
+
 ## ⚠️ A backup copy of the project and the source code are also available on the Internet Archive.
 [Internet Archive](https://archive.org/details/cossacks-back-to-war-v-1.52-2025_202506)
 
@@ -256,6 +268,19 @@ If you happen to come across any archive on the web, you may need the following 
 # 🗂️ А как же классическая версия без модов, но с исправлениями ошибок версии 1.42?
 
 Это Cossacks: Back to War 1.52 Classic Edition. Она доступна в отдельном архиве, который вы можете загрузить [здесь](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) . В этой версии нет встроенных дополнений, но работают все новые чит-коды, так как они прописаны в движке, а не в ресурсах игры.
+
+# 🖥️ Поддержка Windows XP — для настоящих ценителей ретро
+
+Несмотря на основной упор на современные операционные системы, мы не забыли о пользователях Windows XP — легендарной ОС, ставшей символом своей эпохи. Версия 1.52 уже успешно запускается на Windows XP SP3, и в данный момент активно ведётся разработка специальной редакции — Cossacks: Back to War 1.52 Legacy Edition — адаптированной для этой системы.
+
+В этой версии будут доступны все функции и улучшения 1.52, включая полноценный мультиплеер, совместимый с игроками на Windows 11, Linux и macOS.
+
+# ⚠️ Важно: Поддержка Windows 9x (95/98/ME) и Windows 2000 реализовываться не будет по следующим причинам:
+
+В этих системах отсутствует поддержка многоядерных процессоров;
+Версия 1.52 требует минимум 256 МБ оперативной памяти и двухъядерный процессор (рекомендуется 4 ядра и более);
+Даже при глубокой оптимизации игра остаётся слишком ресурсоёмкой для платформ без SMP (Symmetric Multiprocessing) — многопоточность лежит в основе новой версии движка.
+
 
 ### ⚠️  Резервная копия проекта и исходный код также доступны в Internet Archive.
 
