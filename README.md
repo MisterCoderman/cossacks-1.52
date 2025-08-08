@@ -146,9 +146,9 @@ If you happen to come across any archive on the web, you may need the following 
 
 | File                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | 9dc57d34a502df9aa1e552bf913b044af4d32545cb47ea169f73e8f287b75990 |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | c92d553c3d985e5e427445095e26b055d9d474841a77d40de6c42ed52c4f56e3 |
-| cossacks-1.52-source.zip                  | c0a083ec9ce0e5d15427323b66368695c90aef5215bcedefd7036c2f97c6697c |
+| Cossacks Back to War v1.52 (2025).zip                   | cac2dbca201890a9d07628eea6d908aca2786d7ad16af48793278f68a870371f |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | 865495e3497f933195fc752398716193924810f26f34b1ab8b1f18ec39490303 |
+| cossacks-1.52-source.zip                  | 195556674cf304dba49b868be8bc2169abf79c4c5df314363db53a3dd81ca6b9 |
 
 
 <hr>
@@ -313,8 +313,8 @@ If you happen to come across any archive on the web, you may need the following 
 Если вы вдруг наткнётесь на какой-то архив на просторах сети, вам могут понадобиться следующие контрольные суммы для проверки целостности файлов:
 | Файл                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | 9dc57d34a502df9aa1e552bf913b044af4d32545cb47ea169f73e8f287b75990 |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | c92d553c3d985e5e427445095e26b055d9d474841a77d40de6c42ed52c4f56e3 |
-| cossacks-1.52-source.zip                    | c0a083ec9ce0e5d15427323b66368695c90aef5215bcedefd7036c2f97c6697c |
+| Cossacks Back to War v1.52 (2025).zip                   | cac2dbca201890a9d07628eea6d908aca2786d7ad16af48793278f68a870371f |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | 865495e3497f933195fc752398716193924810f26f34b1ab8b1f18ec39490303 |
+| cossacks-1.52-source.zip                    | 195556674cf304dba49b868be8bc2169abf79c4c5df314363db53a3dd81ca6b9 |
 
 
