@@ -105,6 +105,18 @@ You can download the updated version of the game [here](https://archive.org/down
 # 🗂️ What about the classic version without mods, but with the bug fixes from version 1.42?
 This is Cossacks: Back to War 1.52 Classic Edition. It’s available as a separate archive, which you can download [here](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) . This version doesn’t include any built-in mods, but all new cheat codes still work, as they are written into the game engine rather than the game resources.
 
+# 🖥️ Windows XP Support — For True Retro Enthusiasts
+
+While our main focus is on modern operating systems, we haven’t forgotten the users of Windows XP — the legendary OS that became a symbol of its era. Version 1.52 already runs successfully on Windows XP SP3, and we’re actively developing a special edition — Cossacks: Back to War 1.52 Legacy Edition — tailored specifically for this system.
+
+This version will include all the features and improvements of 1.52, including full multiplayer support compatible with players on Windows 11, Linux, and macOS.
+
+# ⚠️ Important: Support for Windows 9x (95/98/ME) and Windows 2000 will not be implemented for the following reasons:
+
+These systems lack support for multi-core processors;
+Version 1.52 requires at least 256 MB of RAM and a dual-core CPU (quad-core or higher recommended);
+Even with deep optimization, the game remains too resource-intensive for platforms without SMP (Symmetric Multiprocessing) — multithreading is a core part of the new engine version.
+
 ## ⚠️ A backup copy of the project and the source code are also available on the Internet Archive.
 [Internet Archive](https://archive.org/details/cossacks-back-to-war-v-1.52-2025_202506)
 
@@ -134,11 +146,11 @@ If you happen to come across any archive on the web, you may need the following 
 
 | File                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | db845c8468c60166bfd4d4af36a6de852fe6dbd6e4df614f79cbf377b4e9705e |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | 4357d1a4d30f7358f39b9277bdae47adc6ea495615556c4306722e68d8d2a3fe |
-| cossacks-1.52-source.zip                  | 7d55921698d850328280922a18b85f83d8e4ff9d7c5ec29d55e6893eae0b713a |
+| Cossacks Back to War v1.52 (2025).zip                   | 9dc57d34a502df9aa1e552bf913b044af4d32545cb47ea169f73e8f287b75990 |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | c92d553c3d985e5e427445095e26b055d9d474841a77d40de6c42ed52c4f56e3 |
+| cossacks-1.52-source.zip                  | c0a083ec9ce0e5d15427323b66368695c90aef5215bcedefd7036c2f97c6697c |
 
-You will also need the [Microsoft Visual C++ 2015 Redistributable (x86)](https://www.microsoft.com/en-us/download/details.aspx?id=53587) for the game to work correctly. 💻
+
 <hr>
 
 <a name="rus"></a>
@@ -257,6 +269,19 @@ You will also need the [Microsoft Visual C++ 2015 Redistributable (x86)](https:/
 
 Это Cossacks: Back to War 1.52 Classic Edition. Она доступна в отдельном архиве, который вы можете загрузить [здесь](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) . В этой версии нет встроенных дополнений, но работают все новые чит-коды, так как они прописаны в движке, а не в ресурсах игры.
 
+# 🖥️ Поддержка Windows XP — для настоящих ценителей ретро
+
+Несмотря на основной упор на современные операционные системы, мы не забыли о пользователях Windows XP — легендарной ОС, ставшей символом своей эпохи. Версия 1.52 уже успешно запускается на Windows XP SP3, и в данный момент активно ведётся разработка специальной редакции — Cossacks: Back to War 1.52 Legacy Edition — адаптированной для этой системы.
+
+В этой версии будут доступны все функции и улучшения 1.52, включая полноценный мультиплеер, совместимый с игроками на Windows 11, Linux и macOS.
+
+# ⚠️ Важно: Поддержка Windows 9x (95/98/ME) и Windows 2000 реализовываться не будет по следующим причинам:
+
+В этих системах отсутствует поддержка многоядерных процессоров;
+Версия 1.52 требует минимум 256 МБ оперативной памяти и двухъядерный процессор (рекомендуется 4 ядра и более);
+Даже при глубокой оптимизации игра остаётся слишком ресурсоёмкой для платформ без SMP (Symmetric Multiprocessing) — многопоточность лежит в основе новой версии движка.
+
+
 ### ⚠️  Резервная копия проекта и исходный код также доступны в Internet Archive.
 
 
@@ -288,9 +313,8 @@ You will also need the [Microsoft Visual C++ 2015 Redistributable (x86)](https:/
 Если вы вдруг наткнётесь на какой-то архив на просторах сети, вам могут понадобиться следующие контрольные суммы для проверки целостности файлов:
 | Файл                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | db845c8468c60166bfd4d4af36a6de852fe6dbd6e4df614f79cbf377b4e9705e |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | 4357d1a4d30f7358f39b9277bdae47adc6ea495615556c4306722e68d8d2a3fe |
-| cossacks-1.52-source.zip                    | 7d55921698d850328280922a18b85f83d8e4ff9d7c5ec29d55e6893eae0b713a |
+| Cossacks Back to War v1.52 (2025).zip                   | 9dc57d34a502df9aa1e552bf913b044af4d32545cb47ea169f73e8f287b75990 |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | c92d553c3d985e5e427445095e26b055d9d474841a77d40de6c42ed52c4f56e3 |
+| cossacks-1.52-source.zip                    | c0a083ec9ce0e5d15427323b66368695c90aef5215bcedefd7036c2f97c6697c |
 
-Также потребуется [Распространяемый компонент Microsoft Visual C++ 2015 (x86)](https://www.microsoft.com/ru-ru/download/details.aspx?id=53587) для корректной работы игры. 💻
 
