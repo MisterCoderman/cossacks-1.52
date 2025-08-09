@@ -93,7 +93,7 @@ Testing on ARM versions of Windows and macOS: The game has been tested on ARM ve
 
 🔹 Updated Version with Mods
 
-You can download the updated version of the game via this [link](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20%282025%29.zip). 🌐
+📥 You can download the updated version of the game via this [link](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20%282025%29.zip). 🌐
 
 To launch mod reloaded, use the batch file Cossacks.Reloaded.bat located next to dmcr.exe.
 
@@ -101,7 +101,7 @@ To launch mod reloaded, use the batch file Cossacks.Reloaded.bat located next to
 
 This is Cossacks: Back to War 1.52 Classic Edition
 
-It is available in a separate archive: [Download Classic Version](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip)
+📥 It is available in a separate archive: [Download Classic Version](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip)
 
 This version does not include built-in add-ons, but all new cheat codes work as they are embedded in the game engine, not in the game resources.
 
@@ -109,9 +109,9 @@ This version does not include built-in add-ons, but all new cheat codes work as 
 
 For macOS users, ready-made bottles (.cxarchive) are available, allowing you to run the game without manual setup:
 
-🔸 Download the bottle for the updated version
+📥 🔸 Download the bottle for the updated version
 
-🔸 Download the bottle for Classic Edition
+📥 🔸 Download the bottle for Classic Edition
 
 Installation:
 
@@ -320,7 +320,7 @@ If you happen to come across any archive on the web, you may need the following 
 
 🔹 Обновлённая версия игры с модами
 
-Вы можете скачать обновлённую версию игры по [ссылке](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20%282025%29.zip) . 🌐
+📥 Вы можете скачать обновлённую версию игры по [ссылке](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20%282025%29.zip) . 🌐
 
 Для запуска mod reloaded используйте бат-файл Cossacks.Reloaded.bat, который находится рядом с файлом dmcr.exe.
 
@@ -329,7 +329,7 @@ If you happen to come across any archive on the web, you may need the following 
 
 Это Cossacks: Back to War 1.52 Classic Edition
 
-Она доступна в отдельном архиве: [ Скачать классическую версию](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) 
+📥 Она доступна в отдельном архиве: [ Скачать классическую версию](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Back%20to%20War%20v1.52%20Classic%20Edition.zip) 
 
 В этой версии нет встроенных дополнений, но работают все новые чит-коды, так как они прописаны в движке, а не в ресурсах игры.
 
@@ -337,9 +337,9 @@ If you happen to come across any archive on the web, you may need the following 
 
 Для пользователей macOS доступны готовые бутылки (.cxarchive), которые позволяют запустить игру без ручной настройки:
 
-🔸 Скачать бутылку для обновлённой версии
+📥 🔸 Скачать бутылку для обновлённой версии
 
-🔸 Скачать бутылку для Classic Edition
+📥 🔸 Скачать бутылку для Classic Edition
 
 Установка:
 
