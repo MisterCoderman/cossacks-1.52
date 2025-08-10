@@ -156,16 +156,22 @@ Starting August 9, 2025, Cossacks: Back to War 1.52 Legacy Edition, specifically
 
     💡 Important: This version is also suitable if you are using outdated Linux versions, for example, without support for the latest versions of Wine or Proton. Thanks to enhanced compatibility and low system requirements, Legacy Edition can be an excellent choice for older distributions.
 
-🖥 How to Run the Game on Linux?
+# 🖥 How to run a game on Linux?
+To run a game on Linux, use Wine, Proton, or Lutris. Simply copy the game folder to the desired directory and launch one of the following files:
 
-To run the game on Linux, use Wine, Proton, or Lutris.
-Simply copy the game folder to the desired directory and run:
+dmcr.exe — for the original version
 
-    dmcr.exe — for the original version
+dmcr.exe /reloaded — to run with the Reloaded mod
 
-    dmcr.exe /reloaded — to launch with the Reloaded mod
+🔊 Sound issues (crackling, artifacts)?
 
-⚠️ Important: Support for Windows 9x/ME and Windows 2000 will not be implemented for the following reasons:
+If you encounter crackling or artifacts in the sound when launching the game, it may be related to the choice of audio backend in Wine. To fix these issues, it’s recommended to run the game with the audio driver specified manually:
+
+SDL_AUDIODRIVER=directsound wine dmcr.exe
+
+To avoid entering this variable every time, you can add it to the configuration of your wineprefix. This will automatically apply the setting each time the game is launched.
+
+# ⚠️ Important: Support for Windows 9x/ME and Windows 2000 will not be implemented for the following reasons:
 
     These systems lack support for multi-core processors
 
@@ -391,16 +397,23 @@ If you happen to come across any archive on the web, you may need the following 
 
     💡 Важно: Эта версия также подойдёт, если вы используете устаревшие версии Linux, например, без поддержки последних версий Wine или Proton. Благодаря повышенной совместимости и низким системным требованиям, Legacy Edition может быть отличным выбором для старых дистрибутивов.
 
-🖥 Как запустить игру на Linux?
+# 🖥 Как запустить игру на Linux?
 
-Для запуска игры на Linux используйте Wine,Proton или Lutris.
-Просто скопируйте папку с игрой в нужную директорию и запустите:
+Для запуска игры на Linux используйте Wine, Proton или Lutris. Просто скопируйте папку с игрой в нужную директорию и запустите один из следующих файлов:
 
     dmcr.exe — для оригинальной версии
 
     dmcr.exe /reloaded — для запуска с модом Reloaded
 
-⚠️ Важно: поддержка Windows 9x/ME и Windows 2000 реализовываться не будет по следующим причинам:
+🔊 Проблемы со звуком (хрусты, артефакты) ?
+
+Если при запуске игры вы сталкиваетесь с хрустами или артефактами в звуке, это может быть связано с выбором звукового бэкенда в Wine. Чтобы устранить эти проблемы, рекомендуется запускать игру с указанием аудиодрайвера вручную:
+
+SDL_AUDIODRIVER=directsound wine dmcr.exe
+
+Чтобы не вводить эту переменную каждый раз, вы можете прописать её в конфигурации вашей бутылки (wineprefix). Это позволит автоматически применять настройку при каждом запуске игры.
+
+# ⚠️ Важно: поддержка Windows 9x/ME и Windows 2000 реализовываться не будет по следующим причинам:
 
     В этих системах отсутствует поддержка многоядерных процессоров
 
