@@ -1,8 +1,0 @@
-﻿cl : командная строка warning D9025: переопределение "/sdl" на "/GS-"
-  ActiveScenary.cpp
-  SelProp.cpp
-  Создание кода...
-     Создается библиотека ../Temp/dmcr.lib и объект ../Temp/dmcr.exp
-  Создание кода
-  Создание кода завершено
-  Cossacks.vcxproj -> C:\cossacks-2025\src\Testing\dmcr.exe
