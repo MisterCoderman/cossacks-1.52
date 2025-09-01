@@ -20,6 +20,7 @@
 #include "fonts.h"
 #include "VirtScreen.h"
 #include <SDL.h>
+#include <SDL_syswm.h>
 extern byte PlayGameMode;
 void Rept(LPSTR sz, ...);
 __declspec(dllexport) int ModeLX[32];
@@ -466,6 +467,24 @@ bool CreateDDObjects(HWND hwnd_param) {
         else {
             SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN);
             SDL_Delay(100);
+            // Получаем HWND
+            SDL_SysWMinfo wminfo;
+            SDL_VERSION(&wminfo.version);
+            if (SDL_GetWindowWMInfo(gWindow, &wminfo)) {
+                HWND hwnd = wminfo.info.win.window;
+
+                // Форсируем "фокус приложения"
+                PostMessage(hwnd, WM_ACTIVATEAPP, TRUE, 0);
+                PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+                PostMessage(hwnd, WM_SETFOCUS, 0, 0);
+
+                // Дополнительно обновляем клиентскую область
+                RECT rc;
+                GetClientRect(hwnd, &rc);
+                AdjustWindowRect(&rc, GetWindowLong(hwnd, GWL_STYLE), FALSE);
+                SetWindowPos(hwnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+                    SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+            }
         }
         SDL_SetWindowSize(gWindow, RealLx, RealLy);
         SDL_SetWindowPosition(gWindow, 0, 0);
