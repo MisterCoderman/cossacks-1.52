@@ -48,6 +48,13 @@
 #include "bmptool.h"
 
 #include "PlayerInfo.h"
+#include <SDL.h>
+#include <SDL_syswm.h>
+
+extern SDL_Window* gWindow;
+
+extern int RealLx;
+extern int RealLy;
 extern PlayerInfo PINFO[8];
 
 UdpHolePuncher udp_hole_puncher;
@@ -792,7 +799,24 @@ bool SetGameDisplayMode(int SizeX, int SizeY)
 	{
 		ResizeAndCenterWindow();
 	}
+	// Получаем HWND
+	SDL_SysWMinfo wminfo;
+	SDL_VERSION(&wminfo.version);
+	if (SDL_GetWindowWMInfo(gWindow, &wminfo)) {
+		HWND hwnd = wminfo.info.win.window;
 
+		// Форсируем "фокус приложения"
+		PostMessage(hwnd, WM_ACTIVATEAPP, TRUE, 0);
+		PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+		PostMessage(hwnd, WM_SETFOCUS, 0, 0);
+
+		// Дополнительно обновляем клиентскую область
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		AdjustWindowRect(&rc, GetWindowLong(hwnd, GWL_STYLE), FALSE);
+		SetWindowPos(hwnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+			SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+	}
 	return true;
 }
 
