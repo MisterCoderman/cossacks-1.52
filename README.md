@@ -211,16 +211,16 @@ If you happen to come across any archive on the web, you may need the following 
 
 | File                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | 0023fe5a5c9d4cfb577f9ab1b470c4933d9c684dca1d8833f79775535f5ba2d8 |
-| Cossacks Back to War v1.52 LE (2025).zip                   | cc0f34a44ce5911f3754f90072e9dffc9d9489fc53c03dbcc814c23954f56b5f |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | dcadc9c09b393ee1ecde70858eb56167cb838695c4474b04a140a357a68f00d5 |
-| Cossacks Back to War v1.52 LE Classic Edition.zip                  | 8ec4c1b1281c371611030f60f00d90fe4b21212831388082144aa6a2b39a43e1 |
-| cossacks-revamp-2025-1.52-source.zip                  | a6411c8cc01a1d6f8c9a829af2bed7ab82fffbbedf5a4dc8d2041d3945e19fbb |
-| cossacks-revamp-2025-1.52-LE-source.zip                 | f2cab5a9659e1df7a1c3c8be2018410bf41df34fde493679c8187548933b88eb |
-| macOS_Cossacks_Back_to_War_1.52.cxarchive                 | 29d8794e968f41801506c39ae16385e7f709197031cf7310d65afc84ccb59d50 |
-| macOS_Cossacks_Back_to_War_1.52_CE.cxarchive                | 95841d92a31543cb88c5dc8f25e87c58cc7aaf8598724cfe33c33d95d0ea42d5 |
-| macOS_RU_Cossacks_Back_to_War_1.52.cxarchive                 | 20e9f14992d3ce9d5d58ec2f6fca28f3e23919119bba716be8c25519aa3820ab |
-| macOS_RU_Cossacks_Back_to_War_1.52_CE.cxarchive               | beec85f30c63731f9af05b5805d60611fa9ad39aab879dd9a4d48cd9972c7bb2 |
+| Cossacks Back to War v1.52 (2025).zip                   | 4299d4fb1f3b7c6e30eb2829a49267724f3b570e9d420de3fcfe8378d1db8da0 |
+| Cossacks Back to War v1.52 LE (2025).zip                   | ca505c5e52b61f9d052ce9b0948faecb9f52c89bf71745d87303135c444e566a |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | e8e8f5e014e71f98cb1a90f261abfd2f01cbc52ff158e2dc06090b8b7d246598 |
+| Cossacks Back to War v1.52 LE Classic Edition.zip                  | a35d9da00246e777f8465831244d5d59240f7c79ca63076e4af8f552454d1733 |
+| cossacks-revamp-2025-1.52-source.zip                  | eba5270f7aa010a1c56a539bd5ecdeea406715ad786025bef1bc4e5221e93a13 |
+| cossacks-revamp-2025-1.52-LE-source.zip                 | 3cf297639b01e80e0fdb22e5ae9c82c9fbaa0abc001c35c91b7c7336173fc748 |
+| macOS_Cossacks_Back_to_War_1.52.cxarchive                 | 92f6e67ceb2fdf185a1633dc1827154a7bf8f46e63b1be0e223daa2e511a9087 |
+| macOS_Cossacks_Back_to_War_1.52_CE.cxarchive                | de1a0edd78221eb48e18b6ee3ae4fb478988a0cb55feceef8dbbaf48d304eead |
+| macOS_RU_Cossacks_Back_to_War_1.52.cxarchive                 | 838ba561b7f5fc3a94238bca2ef0d95242d0b59efd97e91649d080052d09b9c2 |
+| macOS_RU_Cossacks_Back_to_War_1.52_CE.cxarchive               | a180292f9f294fc3c8a518c6c1483e667b470d8aded22205a8966150b8b57a31 |
 
 
 <hr>
@@ -456,13 +456,13 @@ If you happen to come across any archive on the web, you may need the following 
 Если вы вдруг наткнётесь на какой-то архив на просторах сети, вам могут понадобиться следующие контрольные суммы для проверки целостности файлов:
 | Файл                                                    | SHA‑256                                                         |
 |---------------------------------------------------------|----------------------------------------------------------------------|
-| Cossacks Back to War v1.52 (2025).zip                   | 0023fe5a5c9d4cfb577f9ab1b470c4933d9c684dca1d8833f79775535f5ba2d8 |
-| Cossacks Back to War v1.52 LE (2025).zip                   | cc0f34a44ce5911f3754f90072e9dffc9d9489fc53c03dbcc814c23954f56b5f |
-| Cossacks Back to War v1.52 Classic Edition.zip                   | dcadc9c09b393ee1ecde70858eb56167cb838695c4474b04a140a357a68f00d5 |
-| Cossacks Back to War v1.52 LE Classic Edition.zip                  | 8ec4c1b1281c371611030f60f00d90fe4b21212831388082144aa6a2b39a43e1 |
-| cossacks-revamp-2025-1.52-source.zip                  | a6411c8cc01a1d6f8c9a829af2bed7ab82fffbbedf5a4dc8d2041d3945e19fbb |
-| cossacks-revamp-2025-1.52-LE-source.zip                 | f2cab5a9659e1df7a1c3c8be2018410bf41df34fde493679c8187548933b88eb |
-| macOS_Cossacks_Back_to_War_1.52.cxarchive                 | 29d8794e968f41801506c39ae16385e7f709197031cf7310d65afc84ccb59d50 |
-| macOS_Cossacks_Back_to_War_1.52_CE.cxarchive                | 95841d92a31543cb88c5dc8f25e87c58cc7aaf8598724cfe33c33d95d0ea42d5 |
-| macOS_RU_Cossacks_Back_to_War_1.52.cxarchive                 | 20e9f14992d3ce9d5d58ec2f6fca28f3e23919119bba716be8c25519aa3820ab |
-| macOS_RU_Cossacks_Back_to_War_1.52_CE.cxarchive               | beec85f30c63731f9af05b5805d60611fa9ad39aab879dd9a4d48cd9972c7bb2 |
+| Cossacks Back to War v1.52 (2025).zip                   | 4299d4fb1f3b7c6e30eb2829a49267724f3b570e9d420de3fcfe8378d1db8da0 |
+| Cossacks Back to War v1.52 LE (2025).zip                   | ca505c5e52b61f9d052ce9b0948faecb9f52c89bf71745d87303135c444e566a |
+| Cossacks Back to War v1.52 Classic Edition.zip                   | e8e8f5e014e71f98cb1a90f261abfd2f01cbc52ff158e2dc06090b8b7d246598 |
+| Cossacks Back to War v1.52 LE Classic Edition.zip                  | a35d9da00246e777f8465831244d5d59240f7c79ca63076e4af8f552454d1733 |
+| cossacks-revamp-2025-1.52-source.zip                  | eba5270f7aa010a1c56a539bd5ecdeea406715ad786025bef1bc4e5221e93a13 |
+| cossacks-revamp-2025-1.52-LE-source.zip                 | 3cf297639b01e80e0fdb22e5ae9c82c9fbaa0abc001c35c91b7c7336173fc748 |
+| macOS_Cossacks_Back_to_War_1.52.cxarchive                 | 92f6e67ceb2fdf185a1633dc1827154a7bf8f46e63b1be0e223daa2e511a9087 |
+| macOS_Cossacks_Back_to_War_1.52_CE.cxarchive                | de1a0edd78221eb48e18b6ee3ae4fb478988a0cb55feceef8dbbaf48d304eead |
+| macOS_RU_Cossacks_Back_to_War_1.52.cxarchive                 | 838ba561b7f5fc3a94238bca2ef0d95242d0b59efd97e91649d080052d09b9c2 |
+| macOS_RU_Cossacks_Back_to_War_1.52_CE.cxarchive               | a180292f9f294fc3c8a518c6c1483e667b470d8aded22205a8966150b8b57a31 |
