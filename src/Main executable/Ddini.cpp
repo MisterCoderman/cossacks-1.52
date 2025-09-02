@@ -61,6 +61,13 @@ void* offScreenPtr = nullptr;
 std::mutex renderMutex;
 extern bool PalDone;
 extern word PlayerMenuMode;
+bool IsRunningUnderWine_ByNtDll() {
+    HMODULE ntdll = GetModuleHandleA("ntdll.dll");
+    if (!ntdll) return false;
+    FARPROC wineVer = GetProcAddress(ntdll, "wine_get_version");
+    return wineVer != nullptr;
+}
+bool isWine = IsRunningUnderWine_ByNtDll();
 
 // Проверка использования памяти процесса (в байтах)
 size_t GetProcessMemoryUsage() {
@@ -134,6 +141,36 @@ void ClearRGB() {
 
 extern bool InGame;
 extern bool InEditor;
+bool mouseCaptured = false;
+
+void CaptureMouseOnce(SDL_Window* gWindow) {
+    if (isWine) return;
+    if (mouseCaptured) return;
+
+    SDL_SysWMinfo wminfo;
+    SDL_VERSION(&wminfo.version);
+    if (SDL_GetWindowWMInfo(gWindow, &wminfo)) {
+        HWND hwnd = wminfo.info.win.window;
+        PostMessage(hwnd, WM_ACTIVATEAPP, TRUE, 0);
+        PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
+        PostMessage(hwnd, WM_SETFOCUS, 0, 0);
+        SetForegroundWindow(hwnd);
+        BringWindowToTop(hwnd);
+        SetActiveWindow(hwnd);
+
+        RECT rc;
+        GetClientRect(hwnd, &rc);
+        AdjustWindowRect(&rc, GetWindowLong(hwnd, GWL_STYLE), FALSE);
+        SetWindowPos(hwnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+            SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+
+        mouseCaptured = true;
+    }
+}
+
+void ResetMouseCapture() {
+    mouseCaptured = false;
+}
 
 __declspec(dllexport) void FlipPages(void) {
     std::lock_guard<std::mutex> lock(renderMutex);
@@ -181,6 +218,10 @@ __declspec(dllexport) void FlipPages(void) {
         if (SDL_RenderSetVSync(gRenderer, (InGame || InEditor) ? 1 : 0) == 0) {
             currentVSync = (InGame || InEditor);
         }
+
+    }
+    if (currentVSync) {
+        CaptureMouseOnce(gWindow);
     }
 
     if (!bActive || DDError) return;
@@ -344,12 +385,7 @@ bool EnumModesOnly() {
     return NModes > 0;
 }
 
-bool IsRunningUnderWine_ByNtDll() {
-    HMODULE ntdll = GetModuleHandleA("ntdll.dll");
-    if (!ntdll) return false;
-    FARPROC wineVer = GetProcAddress(ntdll, "wine_get_version");
-    return wineVer != nullptr;
-}
+
 
 bool CreateDDObjects(HWND hwnd_param) {
     std::lock_guard<std::mutex> lock(renderMutex);
@@ -372,7 +408,7 @@ bool CreateDDObjects(HWND hwnd_param) {
 
     wasInGameOrEditor = InGame || InEditor;
 
-    bool isWine = IsRunningUnderWine_ByNtDll();
+   
     bool needRecreateWindow = (callCount > 1 && (wasInGameOrEditor && !InGame && !InEditor) && !isWine);
 
     DDError = FALSE;
@@ -462,29 +498,13 @@ bool CreateDDObjects(HWND hwnd_param) {
     if ((InGame || InEditor) && window_mode) {
         if (isWine) {
             SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
-            SDL_Delay(100);
+            SDL_Delay(300);
         }
         else {
             SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN);
-            SDL_Delay(100);
-            // Получаем HWND
-            SDL_SysWMinfo wminfo;
-            SDL_VERSION(&wminfo.version);
-            if (SDL_GetWindowWMInfo(gWindow, &wminfo)) {
-                HWND hwnd = wminfo.info.win.window;
-
-                // Форсируем "фокус приложения"
-                PostMessage(hwnd, WM_ACTIVATEAPP, TRUE, 0);
-                PostMessage(hwnd, WM_ACTIVATE, WA_ACTIVE, 0);
-                PostMessage(hwnd, WM_SETFOCUS, 0, 0);
-
-                // Дополнительно обновляем клиентскую область
-                RECT rc;
-                GetClientRect(hwnd, &rc);
-                AdjustWindowRect(&rc, GetWindowLong(hwnd, GWL_STYLE), FALSE);
-                SetWindowPos(hwnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
-                    SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
-            }
+            SDL_Delay(300);
+            ResetMouseCapture();
+  
         }
         SDL_SetWindowSize(gWindow, RealLx, RealLy);
         SDL_SetWindowPosition(gWindow, 0, 0);
