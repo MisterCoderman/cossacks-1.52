@@ -21,6 +21,7 @@
 #include "VirtScreen.h"
 #include <SDL.h>
 #include <SDL_syswm.h>
+#include <fstream>
 extern byte PlayGameMode;
 void Rept(LPSTR sz, ...);
 __declspec(dllexport) int ModeLX[32];
@@ -62,6 +63,12 @@ std::mutex renderMutex;
 extern bool PalDone;
 extern word PlayerMenuMode;
 bool IsRunningUnderWine_ByNtDll() {
+    std::ifstream force_wine_mode1("wine");
+    std::ifstream force_wine_mode2("wine.txt");
+    if (force_wine_mode1.good() || force_wine_mode2.good()) {
+        return true;
+    }
+
     HMODULE ntdll = GetModuleHandleA("ntdll.dll");
     if (!ntdll) return false;
     FARPROC wineVer = GetProcAddress(ntdll, "wine_get_version");
