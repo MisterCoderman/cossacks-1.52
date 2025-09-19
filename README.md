@@ -122,12 +122,11 @@ This is Cossacks: Back to War 1.52 Classic Edition
 This version does not include built-in add-ons, but all new cheat codes work as they are embedded in the game engine, not in the game resources.
 
 # 🚨 Troubleshooting
+If your game crashes on Windows, try one of the following solutions (or both, if necessary):
 
-Create an empty text file named wine in the game folder if crashes occur on Windows.
+Create an empty text file named wine in the game folder.
 
-Create an empty text file named novsync to disable vertical synchronization.
-
-Try one of these solutions, or both in exceptional cases.
+To disable vertical synchronization, create an empty text file named novsync.
 
 # 🍷 Installation on macOS via CrossOver
 
@@ -368,11 +367,11 @@ By supporting developers and purchasing games legally, you contribute to the dev
 
 # 🚨 Решение проблем
 
- Создайте пустой текстовый файл wine в папке с игрой, если наблюдаются вылеты на Windows.
+Если у вас вылетает игра в Windows, попробуйте одно из следующих решений (а при необходимости оба):
 
- Создайте пустой текстовый файл novsync для отключения вертикальной синхронизации.
+Создайте пустой текстовый файл с именем wine в папке с игрой.
 
- Попробуйте одно из данных решений или оба в исключительных случаях.
+Попробуйте отключить вертикальную синхронизацию, создав пустой текстовый файл novsync.
 
 
 # 🍷 Установка на macOS через CrossOver
