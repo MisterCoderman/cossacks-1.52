@@ -60,6 +60,14 @@ The game resources do not fully support an 8th nation on the map, so there are l
 • Adds a total of 117 single-player missions, including the Over the Horizon campaign.
 
  **Includes maps for both multiplayer and single-player modes.**
+ <hr>
+
+**Real War mod created by [-TC-]Atabey (mmuslu33@gmail.com)**
+
+The mod replaces the game's original files, so it is installed separately — simply download the archive from this [link](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Real%20War.zip), extract it to the game folder, and run RealwarRun.bat.
+
+
+Multiplayer and random map mode are supported; story missions are not available. For any questions or suggestions, contact the mod author directly.
 
 
 
@@ -298,10 +306,11 @@ By supporting developers and purchasing games legally, you contribute to the dev
 
 
 **В комплекте идут карты для сетевой и одиночной игры**
+<hr>
 
 **Real War mod создан [-TC-]Atabey (mmuslu33@gmail.com)**
 
-Мод заменяет оригинальные файлы игры, поэтому устанавливается отдельно — просто скачайте архив по ссылке, распакуйте его в папку с игрой и запустите RealwarRun.bat.
+Мод заменяет оригинальные файлы игры, поэтому устанавливается отдельно — просто скачайте архив по [ссылке](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Real%20War.zip), распакуйте его в папку с игрой и запустите RealwarRun.bat.
 
 Поддерживаются мультиплеер и режим случайной карты, сюжетные миссии недоступны; по всем вопросам и предложениям обращайтесь напрямую к автору мода.
 
