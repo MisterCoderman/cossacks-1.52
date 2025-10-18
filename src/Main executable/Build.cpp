@@ -709,7 +709,7 @@ void GetCorrectMoney( byte NI, int* MONEY )
 };
 int GetAmount( word ID )
 {
-	word CID = 0;
+	int CID = 0;
 	word Nsel = ImNSL[MyNation];
 	word* SMon = ImSelm[MyNation];
 	for ( int i = 0; i < Nsel; i++ )
