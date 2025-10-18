@@ -198,8 +198,13 @@ void OneObject::Produce( word ID, word GroupID )
 	Order1* OR2 = LocalOrder;
 	while ( OR2 )
 	{
-		if ( OR2->DoLink == &ProduceObjLink&&OR2->info.Produce.ObjIndex == ID
-			&&OR2->info.Produce.ID == 0xFFFE )return;
+	//	if ( OR2->DoLink == &ProduceObjLink&&OR2->info.Produce.ObjIndex == ID
+		//	&&OR2->info.Produce.ID == 0xFFFE ) return;
+		if (OR2->DoLink == &ProduceObjLink && OR2->info.Produce.ObjIndex == ID
+			 && OR2->info.Produce.ID == 0xFFFE) {
+				break;
+			
+		}
 		OR2 = OR2->NextOrder;
 	};
 	if ( GroupID == 0xFFFE )
