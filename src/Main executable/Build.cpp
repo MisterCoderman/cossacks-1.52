@@ -746,7 +746,7 @@ int GetAmount( word ID )
 
 int GetProgress( word ID, int* MaxProgress )
 {
-	word CID = 0;
+	int CID = 0;
 	word Nsel = ImNSL[MyNation];
 	word* SMon = ImSelm[MyNation];
 	for ( int i = 0; i < Nsel; i++ )
