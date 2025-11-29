@@ -223,6 +223,7 @@ To avoid entering this variable every time, you can add it to the configuration 
 #  🙏 Acknowledgments
 
 I would like to thank the esteemed ereb-thanatos for the massive work on version 1.42. GitHub repository [ereb-thanatos](https://github.com/ereb-thanatos/cossacks-revamp-2017)
+
 I also express my sincere gratitude to the esteemed [rb515proto](https://github.com/MisterCoderman/cossacks-2025/issues/34) for the help with translation and bug fixing 🙏
 
 
