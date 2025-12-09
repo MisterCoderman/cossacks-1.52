@@ -1,4 +1,4 @@
-//FIXED Огромные утечки памяти
+п»ї//FIXED РћРіСЂРѕРјРЅС‹Рµ СѓС‚РµС‡РєРё РїР°РјСЏС‚Рё
 #include "ddini.h"
 #include <stdlib.h>
 #include "ResFile.h"
@@ -179,11 +179,11 @@ void ScenaryLights()
 }
 void ScenaryInterface::UnLoading()
 {
-	// Сброс AssignTBL
+	// РЎР±СЂРѕСЃ AssignTBL
 	for (int i = 0; i < 8; i++)
 		AssignTBL[i] = i;
 
-	// Освобождение памяти
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РїР°РјСЏС‚Рё
 	if (MaxSaves)
 	{
 		delete[] SaveZone;
@@ -192,14 +192,14 @@ void ScenaryInterface::UnLoading()
 		SaveSize = nullptr;
 	}
 
-	// Освобождение DLL
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ DLL
 	if (DLLName)
 	{
 		delete[] DLLName;
 		DLLName = nullptr;
 	}
 
-	// Освобождение UGRP (IDS и SNS через new[], освобождаются в цикле)
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ UGRP (IDS Рё SNS С‡РµСЂРµР· new[], РѕСЃРІРѕР±РѕР¶РґР°СЋС‚СЃСЏ РІ С†РёРєР»Рµ)
 	if (MaxUGRP)
 	{
 		for (int i = 0; i < NUGRP; i++)
@@ -213,7 +213,7 @@ void ScenaryInterface::UnLoading()
 		UGRP = nullptr;
 	}
 
-	// Освобождение UPOS (coor и Type через new[], освобождаются в цикле)
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ UPOS (coor Рё Type С‡РµСЂРµР· new[], РѕСЃРІРѕР±РѕР¶РґР°СЋС‚СЃСЏ РІ С†РёРєР»Рµ)
 	if (MaxUPOS)
 	{
 		for (int i = 0; i < NUPOS; i++)
@@ -227,7 +227,7 @@ void ScenaryInterface::UnLoading()
 		UPOS = nullptr;
 	}
 
-	// Освобождение ZGRP (ZoneID через new[], освобождаются в цикле)
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ ZGRP (ZoneID С‡РµСЂРµР· new[], РѕСЃРІРѕР±РѕР¶РґР°СЋС‚СЃСЏ РІ С†РёРєР»Рµ)
 	if (MaxZGRP)
 	{
 		for (int i = 0; i < NZGRP; i++)
@@ -239,19 +239,19 @@ void ScenaryInterface::UnLoading()
 		ZGRP = nullptr;
 	}
 
-	// Освобождение сообщений
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ СЃРѕРѕР±С‰РµРЅРёР№
 	if (MaxMess)
 	{
 		for (int i = 0; i < NMess; i++)
 		{
-			delete[] Messages[i]; // Освобождение каждой строки сообщения
+			delete[] Messages[i]; // РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРё СЃРѕРѕР±С‰РµРЅРёСЏ
 			Messages[i] = nullptr;
 		}
-		delete[] Messages; // Освобождение массива указателей
+		delete[] Messages; // РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ РјР°СЃСЃРёРІР° СѓРєР°Р·Р°С‚РµР»РµР№
 		Messages = nullptr;
 	}
 
-	// Освобождение звуков
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ Р·РІСѓРєРѕРІ
 	if (MaxSnds)
 	{
 		for (int i = 0; i < NSnd; i++)
@@ -262,7 +262,7 @@ void ScenaryInterface::UnLoading()
 		Sounds = nullptr;
 	}
 
-	// Освобождение страниц
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ СЃС‚СЂР°РЅРёС†
 	if (MaxPages)
 	{
 		for (int i = 0; i < NPages; i++)
@@ -284,11 +284,11 @@ void ScenaryInterface::UnLoading()
 		PageSize = nullptr;
 	}
 
-	// Освобождение DLL
+	// РћСЃРІРѕР±РѕР¶РґРµРЅРёРµ DLL
 	if (hLib)
 		FreeLibrary(hLib);
 
-	// Сброс всех данных
+	// РЎР±СЂРѕСЃ РІСЃРµС… РґР°РЅРЅС‹С…
 	memset(this, 0, sizeof(ScenaryInterface));
 }
 
@@ -404,10 +404,38 @@ extern word COMPSTART[8];
 void ScenaryInterface::Load(char* Name, char* Text)
 {
 	for (int i = 0; i < 8; i++) AssignTBL[i] = i;
-	//ProtectionMode=1;
 	memset(COMPSTART, 0, sizeof COMPSTART);
-	ResFile RF = RReset(Text);
-	//ProtectionMode=0;
+	char lang[3] = "en";
+
+	LCID uiLCID = GetSystemDefaultUILanguage();
+	if (GetLocaleInfoA(uiLCID, LOCALE_SISO639LANGNAME, lang, sizeof(lang)) == 0 ||
+		lang[0] == 0)
+	{
+		strcpy(lang, "en");
+	}
+
+	char FileToLoad[260];
+	ResFile RF = INVALID_HANDLE_VALUE;
+
+	const char* dot = strrchr(Text, '.');
+	if (dot && lang[0] && lang[1])
+	{
+		int baseLen = (int)(dot - Text);
+		memcpy(FileToLoad, Text, baseLen);
+		FileToLoad[baseLen] = '_';
+		FileToLoad[baseLen + 1] = lang[0];
+		FileToLoad[baseLen + 2] = lang[1];
+		FileToLoad[baseLen + 3] = '\0';
+		strcat(FileToLoad, dot);             
+
+		RF = RReset(FileToLoad);               
+	}
+
+	if (RF == INVALID_HANDLE_VALUE)
+	{
+		RF = RReset(Text);
+	}
+
 	if (RF != INVALID_HANDLE_VALUE)
 	{
 		int sz = RFileSize(RF);
@@ -415,11 +443,10 @@ void ScenaryInterface::Load(char* Name, char* Text)
 		{
 			char* TMP = new char[sz + 1];
 			char* TMP1 = new char[sz + 1];
-
 			RBlockRead(RF, TMP1, sz);
-			char* STR0 = TMP1;
 			TMP1[sz] = 0;
 
+			char* STR0 = TMP1;
 			bool exit = false;
 			do
 			{
@@ -434,29 +461,31 @@ void ScenaryInterface::Load(char* Name, char* Text)
 						PageBMP = (char**)realloc(PageBMP, 4 * MaxPages);
 						PageSize = (int*)realloc(PageSize, 4 * MaxPages);
 					}
+
 					STR0 += L + 1;
 					PageID[NPages] = new char[strlen(TMP) + 1];
 					strcpy(PageID[NPages], TMP);
+
 					L = ReadStr(TMP, STR0, 0x0D);
 					STR0 += L;
 					PageBMP[NPages] = new char[strlen(TMP) + 1];
 					strcpy(PageBMP[NPages], TMP);
+
 					if (STR0[0] == 0x0D) STR0 += 2;
+
 					L = ReadStr(TMP, STR0, '#');
 					Page[NPages] = new char[strlen(TMP) + 1];
 					PageSize[NPages] = L;
 					strcpy(Page[NPages], TMP);
+
 					NPages++;
 					STR0 += L;
 				}
 				else exit = true;
 			} while (!exit);
 
-			// Вместо free(): корректно удаляем память, выделенную через new[]
 			delete[] TMP;
-			TMP = nullptr;
 			delete[] TMP1;
-			TMP1 = nullptr;
 		}
 
 		CreateMissText();
@@ -466,6 +495,7 @@ void ScenaryInterface::Load(char* Name, char* Text)
 	char cc3[200];
 	strcpy(cc3, Name);
 	_strupr(cc3);
+
 	if (strstr(cc3, ".CMS"))
 	{
 		FILE* F = fopen("UserMissions\\start.dat", "w");
@@ -473,8 +503,8 @@ void ScenaryInterface::Load(char* Name, char* Text)
 		{
 			fprintf(F, "%s", cc3);
 			fclose(F);
-			hLib = LoadLibrary("UserMissions\\CMS_start.dll");
 		}
+		hLib = LoadLibrary("UserMissions\\CMS_start.dll");
 	}
 	else
 	{
@@ -502,6 +532,9 @@ void ScenaryInterface::Load(char* Name, char* Text)
 		}
 	}
 }
+
+
+
 
 
 //-------------Registration commands--------------

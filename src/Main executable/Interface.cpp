@@ -12484,44 +12484,141 @@ AddMissionsPack::AddMissionsPack()
 {
 	Pack = nullptr;
 	NMiss = 0;
-	WIN32_FIND_DATA SR;
-	HANDLE H = FindFirstFile("UserMissions\\*.add", &SR);
-	if (H != INVALID_HANDLE_VALUE)
+
+	char lang[3] = "en";
+	LCID lcid = GetSystemDefaultUILanguage();
+	if (GetLocaleInfoA(lcid, LOCALE_SISO639LANGNAME, lang, sizeof(lang)) == 0)
+		strcpy(lang, "en");
+
+	char processed[256][128];
+	int processedCount = 0;
+
+	WIN32_FIND_DATAA fd;
+	HANDLE h = FindFirstFileA("UserMissions\\*.add", &fd);
+	if (h == INVALID_HANDLE_VALUE) return;
+
+	do
 	{
-		do
+		char fname[128];
+		strcpy(fname, fd.cFileName);
+
+		char* dot = strrchr(fname, '.');
+		if (!dot) continue;
+		*dot = 0;
+
+		char base[128];
+		char suffix[4] = { 0 };
+
+		char* under = strrchr(fname, '_');
+		if (under && strlen(under + 1) == 2)
 		{
-			char ccc[128];
-			sprintf(ccc, "UserMissions\\%s", SR.cFileName);
-			GFILE* F = Gopen(ccc, "r");
-			if (F)
+			strcpy(suffix, under + 1);
+			*under = 0;
+		}
+
+		strcpy(base, fname);
+
+		bool already = false;
+		for (int i = 0; i < processedCount; i++)
+		{
+			if (_stricmp(processed[i], base) == 0)
 			{
-				Pack = (OneAddMission*)realloc(Pack, sizeof(OneAddMission) * (NMiss + 1));
-				memset(Pack + NMiss, 0, sizeof OneAddMission);
-				ReadWinString(F, Pack[NMiss].Title, 127);
-				ReadWinString(F, Pack[NMiss].Map, 127);
-				ReadWinString(F, ccc, 127);
-				_strupr(ccc);
-				char* c1 = strstr(ccc, ".DLL");
-				if (!c1)c1 = strstr(ccc, ".CMS");
-				if (c1)
-				{
-					strcpy(c1, ".dsc");
-					strcpy(Pack[NMiss].Preview, ccc);
-					strcpy(c1, ".bmp");
-					FILE* F1 = fopen(ccc, "r ");
-					if (F1)
-					{
-						strcpy(Pack[NMiss].Bitmap, ccc);
-						fclose(F1);
-					};
-				};
-				Gclose(F);
-				NMiss++;
-			};
-		} while (FindNextFile(H, &SR));
-		FindClose(H);
-	};
-};
+				already = true;
+				break;
+			}
+		}
+
+		if (already)
+			continue;
+
+		char localizedAdd[260];
+		sprintf(localizedAdd, "UserMissions\\%s_%s.add", base, lang);
+
+		WIN32_FIND_DATAA tmp;
+		HANDLE h2 = FindFirstFileA(localizedAdd, &tmp);
+
+		const char* fileToLoad;
+
+		if (h2 != INVALID_HANDLE_VALUE)
+		{
+			FindClose(h2);
+			fileToLoad = localizedAdd;
+		}
+		else
+		{
+			static char fallback[260];
+			sprintf(fallback, "UserMissions\\%s.add", base);
+			fileToLoad = fallback;
+		}
+
+		GFILE* F = Gopen((char*)fileToLoad, "r");
+		if (!F) continue;
+
+		Pack = (OneAddMission*)realloc(Pack, sizeof(OneAddMission) * (NMiss + 1));
+		memset(Pack + NMiss, 0, sizeof OneAddMission);
+
+		ReadWinString(F, Pack[NMiss].Title, 127);
+		ReadWinString(F, Pack[NMiss].Map, 127);
+
+		char dllname[260];
+		ReadWinString(F, dllname, 127);
+
+		char dllname_lc[260];
+		strcpy(dllname_lc, dllname);
+		_strlwr(dllname_lc);
+
+		char* ext = strstr(dllname_lc, ".dll");
+		if (!ext) ext = strstr(dllname_lc, ".cms");
+
+		if (ext)
+		{
+
+			*ext = 0;
+
+
+			char dscLocal[260];
+			char dscDef[260];
+
+			sprintf(dscLocal, "%s_%s.dsc", dllname_lc, lang);
+			sprintf(dscDef, "%s.dsc", dllname_lc);
+
+			WIN32_FIND_DATAA dscTmp;
+			HANDLE hd = FindFirstFileA(dscLocal, &dscTmp);
+			if (hd != INVALID_HANDLE_VALUE)
+			{
+				FindClose(hd);
+				strcpy(Pack[NMiss].Preview, dscLocal);
+			}
+			else
+			{
+				strcpy(Pack[NMiss].Preview, dscDef);
+			}
+
+			char bmpPath[260];
+			sprintf(bmpPath, "%s.bmp", dllname_lc);
+			FILE* fbmp = fopen(bmpPath, "rb");
+			if (fbmp)
+			{
+				strcpy(Pack[NMiss].Bitmap, bmpPath);
+				fclose(fbmp);
+			}
+		}
+
+		Gclose(F);
+
+		strcpy(processed[processedCount++], base);
+
+		NMiss++;
+
+	} while (FindNextFileA(h, &fd));
+
+	FindClose(h);
+}
+
+
+
+
+
 AddMissionsPack::~AddMissionsPack()
 {
 	if (Pack)free(Pack);
