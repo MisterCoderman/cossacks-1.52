@@ -73,6 +73,26 @@ The mod replaces the game's original files, so it is installed separately — si
 
 
 Multiplayer and random map mode are supported; story missions are not available. For any questions or suggestions, contact the mod author directly.
+<hr>
+
+ **Missions Pack**
+ 
+
+• Adds missions by the developer [Ivan Petkov](https://github.com/MisterCoderman/cossacks-2025/issues/35)
+
+• Includes 1 campaign and 3 standalone missions.
+
+Campaign:
+
+• Glory of Ushakov
+
+Standalone missions:
+
+• Battle of Kolin
+
+• Battle of Naseby
+
+• Battle of Rocroi
 
 
 
@@ -226,6 +246,8 @@ I would like to thank the esteemed ereb-thanatos for the massive work on version
 
 I also express my sincere gratitude to the esteemed [rb515proto](https://github.com/MisterCoderman/cossacks-2025/issues/34) for the help with translation and bug fixing 🙏
 
+I would also like to thank [Ivan Petkov](https://github.com/MisterCoderman/cossacks-2025/issues/35) for his contribution and for creating the missions included in version 1.52 🙏
+
 
 #  👨‍💻 For Developers
 
@@ -324,8 +346,27 @@ By supporting developers and purchasing games legally, you contribute to the dev
 Мод заменяет оригинальные файлы игры, поэтому устанавливается отдельно — просто скачайте архив по [ссылке](https://archive.org/download/cossacks-back-to-war-v-1.52-2025_202506/Cossacks%20Real%20War.zip), распакуйте его в папку с игрой и запустите RealwarRun.bat.
 
 Поддерживаются мультиплеер и режим случайной карты, сюжетные миссии недоступны; по всем вопросам и предложениям обращайтесь напрямую к автору мода.
+<hr>
+
+**Missions Pack**
+
+• Добавляет миссии от разработчика [Ивана Петкова](https://github.com/MisterCoderman/cossacks-2025/issues/35)
+
+• Включает 1 кампанию и 3 одиночные миссии.
 
 
+Кампания:
+
+• Слава Ушакова
+
+
+Одиночные миссии:
+
+• Сражение при Колине
+
+• Сражение при Нейзби
+
+• Сражение при Рокруа
 
 # Поддержка многоядерности:
 
@@ -490,6 +531,9 @@ By supporting developers and purchasing games legally, you contribute to the dev
 Хочу выразить благодарность за огромную работу над версией 1.42 уважаемому ereb-thanatos. GitHub репозиторий [ereb-thanatos](https://github.com/ereb-thanatos/cossacks-revamp-2017)
 
 Также выражаю искреннюю благодарность уважаемому [rb515proto](https://github.com/MisterCoderman/cossacks-2025/issues/34) за помощь с переводом и исправлением багов 🙏
+
+Также хочу поблагодарить [Ивана Петкова](https://github.com/MisterCoderman/cossacks-2025/issues/35) за его вклад и создание миссий, которые доступны в версии 1.52 🙏
+
 
 
 #  👨‍💻 Для разработчиков
