@@ -187,7 +187,7 @@ void LoadPackArray( SaveBuf* ff1, word* dest, int size )
 {
 	int szs;
 	word defv;
-	xBlockRead( ff1, &szs, 2 );
+	xBlockWrite(ff1, &szs, 4);
 	xBlockRead( ff1, &defv, 2 );
 	for (int i = 0; i < size; i++)dest[i] = defv;
 	int ofst = 0;
@@ -2738,81 +2738,110 @@ void SaveMission( SaveBuf* SB )
 	xBlockWrite( SB, &SCENINF.LooseGame, 1 );
 }
 
-void LoadMission( SaveBuf* SB )
+// Поставь какой-нибудь безопасный лимит, чтобы битый сейв не разнёс всё.
+// Если знаешь реальный максимум — подставь его.
+static const int MAX_SCEN_SAVES = 512;
+
+void LoadMission(SaveBuf* SB)
 {
 	int cms = -1;
+	xBlockRead(SB, &cms, 4);
 
-	xBlockRead( SB, &cms, 4 );
+	// В СЕЙВЕ тут лежит SCENINF.hLib (4 байта), а не "длина"
+	int saved_hLib = 0;
+	xBlockRead(SB, &saved_hLib, 4);
 
-	int L = 0;
-
-	xBlockRead( SB, &L, 4 );
-
-	if (!L)
-	{
+	if (!saved_hLib)
 		return;
-	}
 
-	xBlockRead( SB, PlName, 64 );
-
+	xBlockRead(SB, PlName, 64);
 	SFLB_LoadPlayerData();
 
-	xBlockRead( SB, &CurrentCampagin, 4 );
-	xBlockRead( SB, &CurrentMission, 4 );
+	xBlockRead(SB, &CurrentCampagin, 4);
+	xBlockRead(SB, &CurrentMission, 4);
 	MISSLIST.CurrentMission = cms;
 
 	if (cms != -1)
 	{
-		SCENINF.Load( MISSLIST.MISS[cms].DLLPath, MISSLIST.MISS[cms].Description );
+		SCENINF.Load(MISSLIST.MISS[cms].DLLPath, MISSLIST.MISS[cms].Description);
 	}
 
-	xBlockRead( SB, SCENINF.TIME, sizeof SCENINF.TIME );
-	xBlockRead( SB, SCENINF.TRIGGER, sizeof SCENINF.TRIGGER );
-	xBlockRead( SB, SCENINF.LSpot, sizeof SCENINF.LSpot );
-	xBlockRead( SB, SCENINF.TextDisable, 26 );
-	xBlockRead( SB, &cms, 4 );
+	xBlockRead(SB, SCENINF.TIME, sizeof SCENINF.TIME);
+	xBlockRead(SB, SCENINF.TRIGGER, sizeof SCENINF.TRIGGER);
+	xBlockRead(SB, SCENINF.LSpot, sizeof SCENINF.LSpot);
+	xBlockRead(SB, SCENINF.TextDisable, 26);
 
-	for (int i = 0; i < cms; i++)
-	{
-		int sz;
-		xBlockRead( SB, &sz, 4 );
-		xBlockRead( SB, SCENINF.SaveZone[i], sz );
-	}
+	int ns = 0;
+	xBlockRead(SB, &ns, 4);
 
-	for (int i = 0; i < SCENINF.NUGRP; i++)
+	// защита от бреда в сейве
+	if (ns < 0) ns = 0;
+	if (ns > MAX_SCEN_SAVES) ns = MAX_SCEN_SAVES;
+
+	SCENINF.NSaves = ns;
+
+	for (int i = 0; i < ns; i++)
 	{
-		UnitsGroup* UG = SCENINF.UGRP + i;
-		if (UG->N)
+		int sz = 0;
+		xBlockRead(SB, &sz, 4);
+
+		if (sz < 0) sz = 0;
+		SCENINF.SaveSize[i] = sz;
+
+		if (sz > 0)
 		{
-			free( UG->IDS );
-			free( UG->SNS );
+
+			SCENINF.SaveZone[i] = (byte*)malloc(sz);
+			if (!SCENINF.SaveZone[i])
+			{
+				LOutErr("Save corrupted (SaveZone alloc failed).");
+				return;
+			}
+			xBlockRead(SB, SCENINF.SaveZone[i], sz);
+		}
+		else
+		{
+			SCENINF.SaveZone[i] = nullptr;
 		}
 	}
 
-	xBlockRead( SB, &SCENINF.NUGRP, 4 );
-	xBlockRead( SB, &SCENINF.MaxUGRP, 4 );
-	SCENINF.UGRP = (UnitsGroup*) realloc( SCENINF.UGRP, SCENINF.MaxUGRP * sizeof UnitsGroup );
+	for (int i = 0; i < SCENINF.NUGRP; i++)
+	{
+		UnitsGroup* UG = SCENINF.UGRP + i;
+		if (UG->IDS) { delete[] UG->IDS; UG->IDS = nullptr; }
+		if (UG->SNS) { delete[] UG->SNS; UG->SNS = nullptr; }
+		UG->N = 0;
+	}
+
+	xBlockRead(SB, &SCENINF.NUGRP, 4);
+	xBlockRead(SB, &SCENINF.MaxUGRP, 4);
+
+	SCENINF.UGRP = (UnitsGroup*)realloc(SCENINF.UGRP, SCENINF.MaxUGRP * sizeof(UnitsGroup));
+	if (!SCENINF.UGRP && SCENINF.MaxUGRP)
+	{
+		LOutErr("Save corrupted (UGRP realloc failed).");
+		return;
+	}
 
 	for (int i = 0; i < SCENINF.NUGRP; i++)
 	{
 		UnitsGroup* UG = SCENINF.UGRP + i;
-		xBlockRead( SB, &UG->N, 4 );
+		xBlockRead(SB, &UG->N, 4);
+
+		UG->IDS = nullptr;
+		UG->SNS = nullptr;
+
 		if (UG->N)
 		{
 			UG->IDS = new word[UG->N];
 			UG->SNS = new word[UG->N];
-			xBlockRead( SB, UG->IDS, UG->N * 2 );
-			xBlockRead( SB, UG->SNS, UG->N * 2 );
-		}
-		else
-		{
-			UG->IDS = nullptr;
-			UG->SNS = nullptr;
+			xBlockRead(SB, UG->IDS, UG->N * 2);
+			xBlockRead(SB, UG->SNS, UG->N * 2);
 		}
 	}
 
-	xBlockRead( SB, &SCENINF.Victory, 1 );
-	xBlockRead( SB, &SCENINF.LooseGame, 1 );
+	xBlockRead(SB, &SCENINF.Victory, 1);
+	xBlockRead(SB, &SCENINF.LooseGame, 1);
 
 	CreateMissText();
 
@@ -2822,6 +2851,7 @@ void LoadMission( SaveBuf* SB )
 		LockPause = 1;
 	}
 }
+
 
 void SaveCost( SaveBuf* SB )
 {
