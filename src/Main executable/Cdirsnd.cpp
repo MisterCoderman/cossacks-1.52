@@ -251,6 +251,7 @@ UINT CDirSound::DuplicateSoundBuffer(UINT bufferNum) {
     m_bufferPointers[m_currentBufferNum] = srcChunk;
     m_bufferSizes[m_currentBufferNum] = srcChunk->alen;
     Volume[m_currentBufferNum] = Volume[bufferNum];
+
     return m_currentBufferNum;
 }
 
