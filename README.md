@@ -18,6 +18,7 @@ Improved Graphics and Interface Updated textures and UI make the game easier on 
 **The ability to target buildings through the fog of war has been restored, preserving familiar online game tactics and enhancing gameplay.**
 
 **In the Diplomatic Center, you can now order multiple infinities of units of the same type at once—for example, three infinities of infantry and one infinity of archers—so that the output will be three infantry units and one archer. (Thanks for the idea and testing by [slovnoslon](https://www.youtube.com/@Slovnoslon) )**
+
 **The issue with the "Great Road" mission has been fixed. It is now fully passable.**
 
 
